@@ -1,0 +1,27 @@
+class Solution {
+public:
+int m=1e9+7;
+vector<vector<int>>dp;
+    int solve(int ind,vector<vector<int>>&mat, int gd){
+
+        if(ind>=mat.size()){
+            return gd==1?1:0;
+        }
+        if(dp[ind][gd]!=-1) return dp[ind][gd];
+        int ans=0;
+        for(int j=0;j<mat[0].size();j++){
+            int newgd=0;
+            if(ind==0) newgd=mat[ind][j];
+            else
+            newgd=__gcd(gd,mat[ind][j]);
+
+            ans=(ans+solve(ind+1,mat,newgd))%m;
+
+        }
+        return dp[ind][gd]=ans;
+    }
+    int countCoprime(vector<vector<int>>& mat) {
+        dp.resize(151,vector<int>(151,-1));
+        return solve(0,mat,0);
+    }
+};
